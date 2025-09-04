@@ -17,6 +17,4 @@ function Counter() {
     )
 }
 
-export {
-    Counter as Counter1,
-}
+export default Counter
