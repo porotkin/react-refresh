@@ -1,18 +1,14 @@
 import {useCounterState} from "./useCounterState.js";
+import CounterStatus from "./CounterStatus.jsx";
+import IncrementButton from "./IncrementButton.jsx";
 
 function Counter() {
     const [count, setCount] = useCounterState()
 
     return (
         <>
-            <div>
-                I count to ${count}
-            </div>
-
-            <div>
-                Increment here:
-                <button onClick={() => setCount(prev => prev + 1)}>Click me</button>
-            </div>
+            <CounterStatus value={count}/>
+            <IncrementButton setValue={setCount}/>
         </>
     )
 }
