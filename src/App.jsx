@@ -1,7 +1,7 @@
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-import Counter from "./Counter.jsx";
+import {Counter} from "./Counter.jsx";
 import RefreshRuntime from "./refresh-runtime/RefreshRuntime.js";
 
 const refresh = new RefreshRuntime(
@@ -10,7 +10,7 @@ const refresh = new RefreshRuntime(
     (cb) => import.meta.hot.accept(cb),
 )
 
-function App() {
+function get_App() {
     refresh.refreshComponent()
 
     return (
@@ -37,6 +37,6 @@ function App() {
     )
 }
 
-refresh.accept(App)
+refresh.accept(get_App)
 
-export default App
+export {get_App as App,}

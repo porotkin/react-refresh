@@ -1,6 +1,6 @@
 import {useCounterState} from "./useCounterState.js";
-import CounterStatus from "./CounterStatus.jsx";
-import IncrementButton from "./IncrementButton.jsx";
+import {CounterStatus} from "./CounterStatus.jsx";
+import {IncrementButton} from "./IncrementButton.jsx";
 import RefreshRuntime from "./refresh-runtime/RefreshRuntime.js";
 
 const refresh = new RefreshRuntime(
@@ -9,9 +9,10 @@ const refresh = new RefreshRuntime(
     (cb) => import.meta.hot.accept(cb),
 )
 
-function Counter() {
+function get_Counter() {
     refresh.refreshComponent()
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [count, setCount] = useCounterState()
 
     return (
@@ -22,6 +23,6 @@ function Counter() {
     )
 }
 
-refresh.accept(Counter)
+refresh.accept(get_Counter)
 
-export default Counter
+export {get_Counter as Counter,}
