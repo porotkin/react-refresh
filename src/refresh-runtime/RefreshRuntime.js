@@ -46,14 +46,20 @@ class ReactRefresh {
         window.$RefreshReg$(component, component.displayName);
     }
 
+    normalizeExport(value) {
+        const name = this.moduleId.split("/").pop().replace(".jsx", "");
+        return {
+            ...value,
+            [name]: (...args) => value?.[name]?.(...args),
+        }
+    }
+
     acceptHmrUpdate() {
         if (this.context != null) {
             RefreshRuntime.__hmr_import(this.moduleId).then(currentExports => {
-                RefreshRuntime.registerExportsForReactRefresh(this.moduleId, currentExports);
-
                 this.acceptHmr(nextExports => {
                     const validationResult = RefreshRuntime
-                        .validateRefreshBoundaryAndEnqueueUpdate(this.moduleId, currentExports, nextExports);
+                        .validateRefreshBoundaryAndEnqueueUpdate(this.moduleId, currentExports, this.normalizeExport(nextExports));
 
                     if (validationResult != null) {
                         this.context.invalidate(validationResult);
