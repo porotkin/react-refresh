@@ -1,4 +1,5 @@
 import RefreshRuntime from "./refresh-runtime/RefreshRuntime.js";
+import {createElement} from "react";
 
 const refresh = new RefreshRuntime(
     import.meta.hot,
@@ -8,12 +9,11 @@ const refresh = new RefreshRuntime(
 
 function get_CounterStatus({value}) {
     refresh.refreshComponent()
-    return (
-        <>
-            <div>
-                Current value is {value}
-            </div>
-        </>
+    return createElement(
+        "div",
+        null,
+        "Current value is ",
+        value,
     )
 }
 

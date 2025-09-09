@@ -1,4 +1,5 @@
 import RefreshRuntime from "./refresh-runtime/RefreshRuntime.js";
+import {createElement} from "react";
 
 const refresh = new RefreshRuntime(
     import.meta.hot,
@@ -8,12 +9,10 @@ const refresh = new RefreshRuntime(
 
 function get_IncrementButton({setValue}) {
     refresh.refreshComponent()
-    return (
-        <>
-            <div>
-                <button onClick={setValue}>Increment</button>
-            </div>
-        </>
+    return createElement(
+        "button",
+        {onClick: setValue},
+        "Increment",
     )
 }
 

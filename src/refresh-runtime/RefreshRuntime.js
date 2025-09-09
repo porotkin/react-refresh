@@ -43,11 +43,11 @@ class ReactRefresh {
 
     applySignalToFC(component) {
         this.refreshSigFn(component, this.moduleId, false, () => []);
-        window.$RefreshReg$(component, component.displayName);
+        window.$RefreshReg$(component, component?.displayName ?? component.name);
     }
 
     normalizeExport(value) {
-        const name = this.moduleId.split("/").pop().replace(".jsx", "");
+        const name = this.moduleId.split("/").pop().replace(".js", "");
         return {
             ...value,
             [name]: (...args) => value?.[name]?.(...args),
