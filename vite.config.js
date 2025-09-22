@@ -6,6 +6,7 @@ import {makeIdFiltersToMatchWithQuery} from "@rolldown/pluginutils";
 function addRefreshWrapper(code, pluginName, id) {
     const componentName = id.split("/").pop().replace(".js", "");
 
+    // TODO: Detect react hooks declared in the component and store them inside this call as an array
     const refreshPreabmle = `
 // # region [${pluginName}]    
 import RefreshRuntime from "./refresh-runtime/RefreshRuntime.js";
@@ -18,7 +19,6 @@ const refresh = new RefreshRuntime(
 
 `
 
-    // TODO: Detect react hooks and store them inside this call as an array
     let newCode = code.replace(
         new RegExp(`function ${componentName}\\$lambda\\((\\$this\\$FC)?\\) {`, "g"),
         (sub) => `${refreshPreabmle} ${sub}   refresh.refreshComponent()`,
