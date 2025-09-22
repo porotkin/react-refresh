@@ -1,4 +1,5 @@
 import {defineConfig} from 'vite'
+// TODO: Remove this plugin
 import react from '@vitejs/plugin-react'
 import {makeIdFiltersToMatchWithQuery} from "@rolldown/pluginutils";
 
@@ -17,6 +18,7 @@ const refresh = new RefreshRuntime(
 
 `
 
+    // TODO: Detect react hooks and store them inside this call as an array
     let newCode = code.replace(
         new RegExp(`function ${componentName}\\$lambda\\((\\$this\\$FC)?\\) {`, "g"),
         (sub) => `${refreshPreabmle} ${sub}   refresh.refreshComponent()`,
