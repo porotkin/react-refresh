@@ -11,6 +11,9 @@ class ReactRefresh {
         window.$RefreshSig$ = this.prevRefreshSig;
     }
 
+    // eslint-disable-next-line no-undef
+    isInWorker = typeof WorkerGlobalScope !== 'undefined' && self instanceof WorkerGlobalScope
+
     constructor(context, url, acceptHmr) {
         this.context = context;
         this.url = url;
@@ -23,7 +26,7 @@ class ReactRefresh {
 
         this.refreshSigFn = null;
 
-        if (context != null) {
+        if (context != null && !this.isInWorker) {
             if (window.$RefreshReg$ == null) {
                 throw new Error("Can't detect React Refresh preamble");
             }
@@ -55,24 +58,24 @@ class ReactRefresh {
     }
 
     acceptHmrUpdate() {
-        if (this.context != null) {
-            RefreshRuntime.__hmr_import(this.moduleId).then(currentExports => {
-                this.acceptHmr(nextExports => {
-                    const validationResult = RefreshRuntime
-                        .validateRefreshBoundaryAndEnqueueUpdate(this.moduleId, currentExports, this.normalizeExport(nextExports));
+        RefreshRuntime.__hmr_import(this.moduleId).then(currentExports => {
+            this.acceptHmr(nextExports => {
+                const validationResult = RefreshRuntime
+                    .validateRefreshBoundaryAndEnqueueUpdate(this.moduleId, currentExports, this.normalizeExport(nextExports));
 
-                    if (validationResult != null) {
-                        this.context.invalidate(validationResult);
-                    }
-                });
+                if (validationResult != null) {
+                    this.context.invalidate(validationResult);
+                }
             });
-        }
+        });
     }
 
     accept(component) {
-        this.applySignalToFC(component);
-        this.restoreDefaults();
-        this.acceptHmrUpdate();
+        if (this.context != null && !this.isInWorker) {
+            this.applySignalToFC(component);
+            this.restoreDefaults();
+            this.acceptHmrUpdate();
+        }
     }
 }
 
