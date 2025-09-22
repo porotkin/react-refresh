@@ -1,21 +1,15 @@
-import RefreshRuntime from "./refresh-runtime/RefreshRuntime.js";
 import {createElement} from "react";
 
-const refresh = new RefreshRuntime(
-    import.meta.hot,
-    import.meta.url,
-    (cb) => import.meta.hot.accept(cb),
-)
+function get_IncrementButton() {
+    return IncrementButton$lambda
+}
 
-function get_IncrementButton({setValue}) {
-    refresh.refreshComponent()
+function IncrementButton$lambda($this$FC) {
     return createElement(
         "button",
-        {onClick: setValue},
+        {onClick: $this$FC.setValue},
         "Increment",
     )
 }
-
-refresh.accept(get_IncrementButton)
 
 export {get_IncrementButton as IncrementButton}
