@@ -1,5 +1,5 @@
 import {useCounterState} from "./useCounterState.js";
-import {CounterStatus} from "./CounterStatus.js";
+import {CounterStatus} from "./CounterStatus.jsx";
 import {IncrementButton} from "./IncrementButton.js";
 import {createElement, Fragment, memo} from "react";
 
@@ -16,7 +16,7 @@ function Counter$lambda() {
 
     return createElement(Fragment, {key: "Fragment"}, [
         createElement("div", {key: "Check"}, "Check Counter component HMR"),
-        createElement(CounterStatus(), {key: "CounterStatus", value: count}),
+        createElement(CounterStatus, {key: "CounterStatus", value: count}),
         createElement(IncrementButton(), {key: "IncrementButton", setValue: setCount}),
     ])
 }
